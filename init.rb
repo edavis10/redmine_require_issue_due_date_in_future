@@ -10,3 +10,9 @@ Redmine::Plugin.register :redmine_require_issue_due_date_in_future do
   version '0.1.0'
   requires_redmine :version_or_higher => '0.8.0'
 end
+
+require 'dispatcher'
+Dispatcher.to_prepare :redmine_require_issue_due_date_in_future do
+  require_dependency 'issue'
+  Issue.send(:include, RedmineRequireIssueDueDateInFuture::Patches::IssuePatch)
+end
